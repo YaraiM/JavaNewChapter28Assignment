@@ -24,7 +24,7 @@ public class StudentController {
     this.converter = converter;
   }
 
-  @GetMapping("/studentList")
+  @GetMapping("/students")
   public String getStudentList(Model model) {
     List<Student> students = service.searchStudentList();
     List<StudentCourse> studentsCourses = service.searchStudentsCourseList();
@@ -35,7 +35,7 @@ public class StudentController {
     return "studentList";
   }
 
-  @GetMapping("/studentCourseList")
+  @GetMapping("/students-courses")
   public String getStudentCourseList(Model model) {
     List<StudentCourse> studentsCourses = service.searchStudentsCourseList();
 
@@ -43,13 +43,13 @@ public class StudentController {
     return "studentCourseList"; // studentCourseList.htmlを指す。
   }
 
-  @GetMapping("/newStudent")
+  @GetMapping("/students/new")
   public String newStudent(Model model) {
     model.addAttribute("studentDetail", new StudentDetail()); //StudentDetailの要素を登録フォームに適用できるようにする
     return "registerStudent";
   }
 
-  @PostMapping("/registerStudent")
+  @PostMapping("/students")
   // ビューの登録フォームで入力されたstudentDetailの情報をstudentServiceに送る
   public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
     if (result.hasErrors()) {
@@ -59,6 +59,6 @@ public class StudentController {
     // フォームで入力されたstudentDetailのstudentの情報とstudentCourseの情報（最初の一つ）をserviceにあるregisterStudentメソッドの引数とする
     service.registerStudent(studentDetail.getStudent(),
         studentDetail.getStudentCourse().getFirst());
-    return "redirect:/studentList";
+    return "redirect:/students";
   }
 }
